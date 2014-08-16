@@ -41,7 +41,7 @@ module Guard
         system "#{cmd.join " "}"
       end
 
-     success "Foreman started."
+     info "Foreman started."
     end
 
     # Called when `stop|quit|exit|s|q|e + enter` is pressed (when Guard quits).
@@ -54,7 +54,7 @@ module Guard
         # the getpgid method to raise an Errno::ESRCH that will tell us
         # the process is not longer active.
         sleep 1 while ::Process.getpgid(@pid)
-        success "Foreman stopped."
+        info "Foreman stopped."
       rescue Errno::ESRCH
         # Don't do anything, the process does not exist
       end
@@ -100,22 +100,6 @@ module Guard
 
     def info(msg)
       UI.info(msg)
-    end
-
-    def pending message
-      notify message, :image => :pending
-    end
-
-    def success message
-      notify message, :image => :success
-    end
-
-    def failed message
-      notify message, :image => :failed
-    end
-
-    def notify(message, options = {})
-      Notifier.notify(message, options)
     end
   end
 end
