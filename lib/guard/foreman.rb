@@ -21,7 +21,7 @@ module Guard
     # @raise [:task_has_failed] when start has failed
     def start
       # Stop if running
-      stop if pid
+      stop if @pid
 
       cmd = []
       cmd << "foreman start"
@@ -43,12 +43,12 @@ module Guard
     # @raise [:task_has_failed] when stop has failed
     def stop
       begin
-        ::Process.kill("QUIT", pid) if ::Process.getpgid(pid)
+        ::Process.kill("QUIT", @pid) if ::Process.getpgid(@pid)
 
         # foreman won't always shut down right away, so we're waiting for
         # the getpgid method to raise an Errno::ESRCH that will tell us
         # the process is not longer active.
-        sleep 1 while ::Process.getpgid(pid)
+        sleep 1 while ::Process.getpgid(@pid)
         success "Foreman stopped."
       rescue Errno::ESRCH
         # Don't do anything, the process does not exist
@@ -64,13 +64,13 @@ module Guard
       # any code changes using a `HUP` signal, but if the application is
       # preloaded, then a `USR2 + QUIT` signal must be used.
       if @preloading
-        oldpid = pid
+        oldpid = @pid
         UI.debug "Sending USR2 to Foreman with pid #{oldpid}"
         ::Process.kill 'USR2', oldpid
         UI.debug "Sending QUIT to Foreman with pid #{oldpid}"
         ::Process.kill 'QUIT', oldpid
       else
-        ::Process.kill 'HUP', pid
+        ::Process.kill 'HUP', @pid
       end
 
       UI.info "Done reloading Foreman."
@@ -91,16 +91,6 @@ module Guard
     end
 
     private
-    def pid
-      # Favor the pid in the pidfile, since some processes
-      # might daemonize properly and fork twice.
-      if File.exists?(@pid_file)
-        @pid = File.open(@pid_file) { |f| f.gets.to_i }
-      end
-
-      @pid
-    end
-
     def info(msg)
       UI.info(msg)
     end
