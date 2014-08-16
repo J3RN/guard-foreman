@@ -66,3 +66,10 @@ Available options (Note: stolen directly from the [Foreman documentation]
 * `:root` Specify an alternate application root. This defaults to the directory
   containing the Procfile.
 
+NOTE: The parent project of Guard::Foreman, [Guard::Unicorn] [gdu], has a
+`:bundler` option available for using `bundle exec`. I have removed this bit of
+functionality as the [Foreman Github page] [fgp] asks users to *not* put
+Foreman in their Gemfiles.
+
+[gdu]: https://github.com/andreimaxim/guard-unicorn
+[fgp]: https://github.com/ddollar/foreman
