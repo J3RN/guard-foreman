@@ -52,11 +52,13 @@ to have graphical notifications.
 guard :foreman, profile: 'Profile.dev'
 ```
 
-Available options (Note: stolen directly from the [Foreman documentation]
+Available options (Note: mostly stolen directly from the [Foreman documentation]
  [fd]):
 
 [fd]: http://ddollar.github.io/foreman/
 
+* `:log_file` Specify a location to pipe the Foreman logs into. Defaults to
+  `log/foreman.log`
 * `:concurrency` Specify the number of each process to run. This should be
   passed in the format `process=num,process=num`
 * `:env` Specify one or more .env files to load

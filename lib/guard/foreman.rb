@@ -4,10 +4,14 @@ require 'guard/guard'
 module Guard
   class Foreman < Guard
 
+    # Default log location (Rails in mind)
+    DEFAULT_LOG_LOCATION = "log/foreman.log"
+
     # Initialize a Guard.
     # @param [Array<Guard::Watcher>] watchers the Guard file watchers
     # @param [Hash] options the custom Guard options
-    def initialize(watchers = [], options = {})
+    def initialize(options = {})
+      @log_file       = options.fetch(:log_file, DEFAULT_LOG_LOCATION)
       @concurrency    = options[:concurrency]
       @env            = options[:env]
       @procfile       = options[:procfile]
@@ -30,6 +34,7 @@ module Guard
       cmd << "-f #{@procfile}"    if @procfile
       cmd << "-p #{@port}"        if @port
       cmd << "-d #{@root}"        if @root
+      cmd << "> #{@log_file}"
 
 
       @pid = ::Process.fork do
