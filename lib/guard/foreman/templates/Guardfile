@@ -1,5 +1,3 @@
-## Sample template for guard-unicorn
-#
 # Usage:
 #     guard :foreman, <options hash>
 #
@@ -9,4 +7,9 @@
 # * :procfile - an alternate Procfile to use (default is Procfile)
 # * :port - an alternate port to use (default is 5000)
 # * :root - an alternate application root
-guard :unicorn, profile: 'Procfile.dev'
+guard :unicorn, profile: 'Procfile.dev' do
+  # Rails example - Watch controllers, models, helpers, lib, and config files
+  watch( /^app\/(controllers|models|helpers)\/.+\.rb$/ )
+  watch( /^lib\/.+\.rb$/ )
+  watch( /^config\/*/ )
+end
