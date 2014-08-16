@@ -2,15 +2,13 @@
 $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
-  s.name        = "guard-unicorn"
-  s.version     = "0.1.1"
-  s.authors     = ["Andrei Maxim"]
-  s.email       = ["andrei@andreimaxim.ro"]
-  s.homepage    = "https://github.com/xhr/guard-unicorn"
-  s.summary     = "Guard for Unicorn"
-  s.description = "Guard plug-in that allows you to restart Unicorn"
-
-  s.rubyforge_project = "guard-unicorn"
+  s.name        = "guard-foreman"
+  s.version     = "0.0.1"
+  s.authors     = ["Andrei Maxim", "Jonathan Arnett"]
+  s.email       = ["jonarnett90@gmail.com"]
+  s.homepage    = "https://github.com/J3RN/guard-foreman"
+  s.summary     = "Guard for Foreman"
+  s.description = "Guard plug-in that allows you to restart Foreman"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
