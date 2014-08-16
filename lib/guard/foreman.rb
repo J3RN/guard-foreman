@@ -27,7 +27,7 @@ module Guard
       cmd << "foreman start"
       cmd << "-c #{@concurrency}" if @concurrency
       cmd << "-e #{@env}"         if @env
-      cmd << "-f #{@procfile}"    if @profile
+      cmd << "-f #{@procfile}"    if @procfile
       cmd << "-p #{@port}"        if @port
       cmd << "-d #{@root}"        if @root
 
