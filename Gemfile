@@ -1,9 +1,9 @@
 source "http://rubygems.org"
 
-# Specify your gem's dependencies in guard-unicorn.gemspec
+# Dependencies
 gemspec
 
 gem 'rake'
 gem 'minitest'
-gem 'coveralls', require: false
+#gem 'coveralls', require: false
 
