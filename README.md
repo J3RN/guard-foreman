@@ -1,49 +1,38 @@
-# Guard::Unicorn 
+# Guard::Foreman
 
-[![Gem Version][gvi]][gvu] [![Build Status][bsi]][bsu] [![Code Climate][cci]][ccu] [![Coverage Status][csi]][csu]
-
-
-[gvi]: https://badge.fury.io/rb/guard-unicorn.svg
-[gvu]: http://badge.fury.io/rb/guard-unicorn
-
-[bsi]: https://secure.travis-ci.org/andreimaxim/guard-unicorn.png 
-[bsu]: http://travis-ci.org/#!/andreimaxim/guard-unicorn
-
-[cci]: https://codeclimate.com/github/andreimaxim/guard-unicorn.png
-[ccu]: https://codeclimate.com/github/andreimaxim/guard-unicorn
-
-[csi]: https://coveralls.io/repos/andreimaxim/guard-unicorn/badge.png
-[csu]: https://coveralls.io/r/andreimaxim/guard-unicorn
-
-`Guard::Unicorn` automatically restarts the Unicorn server using [Guard] [gu].
+`Guard::Foreman` automatically restarts Foreman using [Guard] [gu].
 
 [gu]: https://github.com/guard/guard
 
 
 ## Installation
 
-Using Rubygems:
+**NOTE**: Guard::Foreman is not yet finished! In fact, it's hardly begun. I'll
+update here when I have finished it.
 
-    $ gem install guard-unicorn
+<!--Using Rubygems:-->
 
-Using Bundler, add this to your `Gemfile`, preferably in the `development` group:
+<!-- $ gem install guard-foreman -->
+
+<!--Using Bundler, add this to your `Gemfile`, preferably in the `development` group:-->
 
 ```ruby
 group :development
-  gem 'guard-unicorn'
+  gem 'guard-foreman'
 end
 ```
 
 Add a sample Guard definition to your `Guardfile`:
 
-    $ guard init unicorn
+    $ guard init foreman
 
 
 ## Guard General Usage
 
-Please read the [guard usage doc] [gd] in order to find out more about Guard and 
+Please read the [guard usage doc] [gd] in order to find out more about Guard and
 how to use Guards. There is also [a Railscast about Guard] [gc], created by Ryan
 Bates.
+
 
 [gd]: https://github.com/guard/guard/blob/master/README.md
 [gc]: http://railscasts.com/episodes/264-guard
@@ -57,20 +46,23 @@ to have graphical notifications.
 [notifu]: https://rubygems.org/gems/rb-notifu
 
 
-## Guardfile for guard-unicorn
+## Guardfile for guard-foreman
 
 ```ruby
-guard :unicorn, :daemonized => true
+guard :foreman, profile: 'Profile.dev'
 ```
 
-Available options:
+Available options (Note: stolen directly from the [Foreman documentation]
+ [fd]):
 
-* `:daemonized` run the Unicorn server as a daemon. Can be `true` or `false`.
-  Defaults to `false`
-* `:bundler` use `bundle exec` to start Unicorn. Defaults to `true`.
-* `:config_file` path to the Unicorn config file. Defaults to
-  `config/unicorn.rb`
-* `:pid_file` path to the Unicorn PID file. Defaults to `tmp/pids/unicorn.pid`
-* `:preloading` is Unicorn configured to preload the application? Defaults to
-  `false`.
-* `:port` on what port to run Unicorn. Defaults to `3000`.
+[fd]: http://ddollar.github.io/foreman/
+
+* `:concurrency` Specify the number of each process to run. This should be
+  passed in the format `process=num,process=num`
+* `:env` Specify one or more .env files to load
+* `:procfile` Specify an alternate Procfile to load
+* `:port` Specify which port to use as the base for this application. Should be
+  a multiple of 1000.
+* `:root` Specify an alternate application root. This defaults to the directory
+  containing the Procfile.
+
