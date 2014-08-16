@@ -1,8 +1,8 @@
 require 'guard'
-require 'guard/guard'
+require 'guard/plugin'
 
 module Guard
-  class Foreman < Guard
+  class Foreman < Plugin
 
     # Default log location (Rails in mind)
     DEFAULT_LOG_LOCATION = "log/foreman.log"
@@ -74,16 +74,30 @@ module Guard
     # This method should be principally used for long action like running all specs/tests/...
     # @raise [:task_has_failed] when run_all has failed
     def run_all
+      start
     end
 
     # Called on file(s) modifications that the Guard watches.
     # @param [Array<String>] paths the changes files or paths
     # @raise [:task_has_failed] when run_on_change has failed
+    def run_on_changes(paths)
+      reload
+    end
+
+    def run_on_additions(paths)
+      reload
+    end
+
     def run_on_modifications(paths)
       reload
     end
 
+    def run_on_removals(paths)
+      reload
+    end
+
     private
+
     def info(msg)
       UI.info(msg)
     end
