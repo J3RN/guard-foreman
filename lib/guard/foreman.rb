@@ -60,21 +60,9 @@ module Guard
     # reloading passenger/spork/bundler/...
     # @raise [:task_has_failed] when reload has failed
     def reload
-      # If the `preload_app` directive is false, then the workers will pick up
-      # any code changes using a `HUP` signal, but if the application is
-      # preloaded, then a `USR2 + QUIT` signal must be used.
-      if @preloading
-        oldpid = @pid
-        UI.debug "Sending USR2 to Foreman with pid #{oldpid}"
-        ::Process.kill 'USR2', oldpid
-        UI.debug "Sending QUIT to Foreman with pid #{oldpid}"
-        ::Process.kill 'QUIT', oldpid
-      else
-        ::Process.kill 'HUP', @pid
-      end
-
-      UI.info "Done reloading Foreman."
-      success "Foreman reloaded"
+      UI.info "Restarting Foreman..."
+      stop
+      start
     end
 
     # Called when just `enter` is pressed
