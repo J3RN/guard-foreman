@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "guard-foreman"
-  s.version     = "0.0.1"
+  s.version     = "0.0.2"
   s.authors     = ["Andrei Maxim", "Jonathan Arnett"]
   s.licenses    = ['MIT']
   s.email       = ["jonarnett90@gmail.com"]
