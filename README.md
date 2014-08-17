@@ -1,5 +1,8 @@
 # Guard::Foreman
 
+This project was originally a fork of [Guard::Unicorn] [gdu], but has since
+diverged significantly.
+
 `Guard::Foreman` automatically restarts Foreman using [Guard] [gu].
 
 [gu]: https://github.com/guard/guard
