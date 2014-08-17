@@ -6,6 +6,7 @@ module Guard
 
     # Default log location (Rails in mind)
     DEFAULT_LOG_LOCATION = "log/foreman.log"
+    TITLE = "Foreman status"
 
     # Initialize a Guard.
     # @param [Array<Guard::Watcher>] watchers the Guard file watchers
@@ -36,27 +37,30 @@ module Guard
       cmd << "-d #{@root}"        if @root
       cmd << "> #{@log_file}"
 
+      # NOTE: Starting Foreman as a detached process is sort of a dirty
+      # solution. Do you have a better one?
 
-      @pid = ::Process.fork do
-        system "#{cmd.join " "}"
-      end
+      @pid = spawn("#{cmd.join(" ")}")
 
      info "Foreman started."
+     success "Foreman started"
     end
 
     # Called when `stop|quit|exit|s|q|e + enter` is pressed (when Guard quits).
     # @raise [:task_has_failed] when stop has failed
     def stop
-      begin
-        ::Process.kill("QUIT", @pid) if ::Process.getpgid(@pid)
-
-        # foreman won't always shut down right away, so we're waiting for
-        # the getpgid method to raise an Errno::ESRCH that will tell us
-        # the process is not longer active.
-        sleep 1 while ::Process.getpgid(@pid)
-        info "Foreman stopped."
-      rescue Errno::ESRCH
-        # Don't do anything, the process does not exist
+      if @pid
+        begin
+          debug "Asking Foreman to quit..."
+          ::Process.kill(:SIGINT, @pid)
+          debug "Waiting for Foreman to stop..."
+          ::Process.wait(@pid)
+          @pid = nil          # Unset @pid
+          info "Foreman stopped."
+        rescue Errno::ESRCH
+          # Don't do anything, the process does not exist
+          info "Could not find Foreman process"
+        end
       end
     end
 
@@ -65,7 +69,7 @@ module Guard
     # reloading passenger/spork/bundler/...
     # @raise [:task_has_failed] when reload has failed
     def reload
-      UI.info "Restarting Foreman..."
+      info "Restarting Foreman..."
       stop
       start
     end
@@ -100,6 +104,18 @@ module Guard
 
     def info(msg)
       UI.info(msg)
+    end
+
+    def debug(msg)
+      UI.debug(msg)
+    end
+
+    def success(msg)
+      ::Guard::Notifier.notify(msg, title: TITLE, image: :success)
+    end
+
+    def failure(msg)
+      ::Guard::Notifier.notify(msg, title: TITLE, image: :failure)
     end
   end
 end
