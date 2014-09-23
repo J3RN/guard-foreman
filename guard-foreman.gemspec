@@ -3,7 +3,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "guard-foreman"
-  s.version     = "0.0.1"
+  s.version     = "0.0.4"
   s.authors     = ["Andrei Maxim", "Jonathan Arnett"]
   s.licenses    = ['MIT']
   s.email       = ["jonarnett90@gmail.com"]
@@ -17,4 +17,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency 'guard', '~> 2.6'
+  s.add_dependency 'spoon', '~> 0.0', '>= 0.0.4'
 end

@@ -1,5 +1,6 @@
 require 'guard'
 require 'guard/plugin'
+require 'spoon'
 
 module Guard
   class Foreman < Plugin
@@ -28,21 +29,19 @@ module Guard
       # Stop if running
       stop if @pid
 
-      cmd = []
-      cmd << "foreman start"
-      cmd << "-c #{@concurrency}" if @concurrency
-      cmd << "-e #{@env}"         if @env
-      cmd << "-f #{@procfile}"    if @procfile
-      cmd << "-p #{@port}"        if @port
-      cmd << "-d #{@root}"        if @root
-      cmd << "> #{@log_file}"
+      cmd = "foreman start"
+      cmd += " -c #{@concurrency}" if @concurrency
+      cmd += " -e #{@env}"         if @env
+      cmd += " -f #{@procfile}"    if @procfile
+      cmd += " -p #{@port}"        if @port
+      cmd += " -d #{@root}"        if @root
+      #cmd += " > #{@log_file}"     # Disabled for now
 
-      # NOTE: Starting Foreman as a detached process is sort of a dirty
-      # solution. Do you have a better one?
-
-      @pid = spawn("#{cmd.join(" ")}")
+      debug "About to run #{cmd}"
+      @pid = ::Spoon.spawnp(*cmd.split(" "))     # Spoon is a little weird
 
      info "Foreman started."
+     debug "Foreman has pid #{@pid}"
      success "Foreman started"
     end
 
@@ -51,16 +50,16 @@ module Guard
     def stop
       if @pid
         begin
-          debug "Asking Foreman to quit..."
-          ::Process.kill(:SIGINT, @pid)
+          debug "Asking Foreman to terminate... (#{@pid})"
+          ::Process.kill("TERM", @pid)
           debug "Waiting for Foreman to stop..."
-          ::Process.wait(@pid)
+          ::Process.waitpid(@pid)
           @pid = nil          # Unset @pid
-          info "Foreman stopped."
         rescue Errno::ESRCH
           # Don't do anything, the process does not exist
-          info "Could not find Foreman process"
+          debug "Could not find Foreman process"
         end
+        info "Foreman stopped."
       end
     end
 
