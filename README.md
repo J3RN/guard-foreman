@@ -52,7 +52,7 @@ to have graphical notifications.
 ## Guardfile for guard-foreman
 
 ```ruby
-guard :foreman, profile: 'Profile.dev'
+guard :foreman, procfile: 'Procfile.dev'
 ```
 
 Available options (Note: mostly stolen directly from the [Foreman documentation]
