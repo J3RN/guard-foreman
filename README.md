@@ -10,14 +10,11 @@ diverged significantly.
 
 ## Installation
 
-**NOTE**: Guard::Foreman is not yet finished! In fact, it's hardly begun. I'll
-update here when I have finished it.
+Using Rubygems:
 
-<!--Using Rubygems:-->
+    $ gem install guard-foreman
 
-<!-- $ gem install guard-foreman -->
-
-<!--Using Bundler, add this to your `Gemfile`, preferably in the `development` group:-->
+Using Bundler, you can add this to your `Gemfile`, preferably in the `development` group:
 
 ```ruby
 group :development
