@@ -17,7 +17,7 @@ Using Rubygems:
 Using Bundler, you can add this to your `Gemfile`, preferably in the `development` group:
 
 ```ruby
-group :development
+group :development do
   gem 'guard-foreman'
 end
 ```
